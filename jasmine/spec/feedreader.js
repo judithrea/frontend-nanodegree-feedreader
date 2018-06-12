@@ -36,6 +36,7 @@ $(function() {
                 var url = feed.url;
                 expect(url).toBeDefined();
                 expect(url.length).not.toBe(0);
+                expect(feed.url).toMatch(/^(http|https):\/\//);
             });
          });
 
@@ -70,9 +71,9 @@ $(function() {
           * clicked and does it hide when clicked again.
           */
         it('changes visibility when clicked', function() {
-            $('.menu-icon-link').trigger('click');
+            $('.menu-icon-link').click();
             expect($('body').hasClass('menu-hidden')).toBe(false);
-            $('.menu-icon-link').trigger('click');
+            $('.menu-icon-link').click();
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });
     });
@@ -101,24 +102,22 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-        var firstFeedName,
-            nextFeedName;
+        var initFeed,
+            newFeed;      
 
         beforeEach(function(done) {
-            $('.feed').empty();
             loadFeed(0, function() {
-                firstFeedName = $('.entry h2').text();
-                done();
-            })
+                initFeedSelection = $('.feed').html();
 
-            loadFeed(1, function() {
-                nextFeedName = $('.entry h2').text();
-                done();
-            })
+                loadFeed(1, function() {
+                    newFeed = $('.feed').html(); 
+                    done(); 
+                })
+            });
         }); 
 
-        it('dìsplays content different from other feeds', function() {
-            expect(firstFeedName).not.toBe(nextFeedName);
+        it('displays changed content by loadFeed()', function() {
+            expect(initFeed).not.toBe(newFeed);
         });
     });
                
