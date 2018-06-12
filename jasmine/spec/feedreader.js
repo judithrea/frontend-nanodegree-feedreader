@@ -107,7 +107,7 @@ $(function() {
 
         beforeEach(function(done) {
             loadFeed(0, function() {
-                initFeedSelection = $('.feed').html();
+                initFeed = $('.feed').html();
 
                 loadFeed(1, function() {
                     newFeed = $('.feed').html(); 
